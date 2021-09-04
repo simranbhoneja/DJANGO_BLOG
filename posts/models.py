@@ -14,9 +14,13 @@ class Category(models.Model):
         value = slugify(self.name)
         self.slug = value
         return self.super(args, kwargs)
+ 
+    def __str__(self) -> str:
+        return self.title
 
     class Meta:
         db_table = "posts_categories"
+        verbose_name_plural = "Categories"
 
 class Post(models.Model):
 
@@ -26,12 +30,15 @@ class Post(models.Model):
     slug = models.SlugField(default='', editable=False, max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    deleted_at = models.DateField(null=True)
+    deleted_at = models.DateField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         value = slugify(self.title)
         self.slug = value
         return self.super(args, kwargs)
+
+    def __str__(self) -> str:
+        return self.title
 
     class Meta:
         db_table = "posts_posts"
